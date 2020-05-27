@@ -1,0 +1,29 @@
+{% extends 'polls/base.html' %}
+{% load static %}
+{% block content %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <div class="form-container">
+    <form action="{% url 'polls:vote' question.id%}" method="post">
+        {% csrf_token %}
+          <div class="imgcontainer">
+            <img src="{% static 'polls/images/img_semos.svg' %}" alt="Semos" class="avatar">
+          </div>
+            <div class="container">
+                <h2>{{ question.question_text }}</h2>
+                <table>
+                    <tr>
+                        <th>Choice</th>
+                        <th>Votes</th>
+                    </tr>
+                    {% for choice in question.choice_set.all %}
+                        <tr>
+                            <td>{{ choice.text }}</td>
+                            <td>{{ choice.votes }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <button id="vote-again"><a style="color: white;" href="{% url 'polls:detail' question.id %}">Vote again ?</a></button>
+            </div>
+    </form>
+    </div>
+{% endblock %}
